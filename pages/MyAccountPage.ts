@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test'
 
 export class MyAccountPage {
-    readonly page: Page
+    private readonly page: Page
 
     constructor(page: Page) {
         this.page = page;

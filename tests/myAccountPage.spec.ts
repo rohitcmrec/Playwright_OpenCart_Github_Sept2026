@@ -8,6 +8,7 @@ test.beforeEach('before each step', async ({ page }) => {
 
 
 test('login', async ({ myAccountPage }) => {
-    await expect(myAccountPage.page).toHaveTitle('My Account');
+    const title = await myAccountPage.getMyAccountPageTitle()
+    expect(title).toBe('My Account');
 
 })
