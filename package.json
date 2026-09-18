@@ -1,0 +1,21 @@
+{
+  "name": "playwright_opencart_github_sept2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^22.20.3",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "csv-parse": "^7.0.2",
+    "csv-parser": "^3.2.1",
+    "xlsx": "^0.18.5"
+  }
+}
