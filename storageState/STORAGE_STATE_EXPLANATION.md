@@ -78,9 +78,44 @@ the root level in the config, it is accessible via `config.projects[0].use.baseU
 
 ---
 
-## 4. How storageStateFixture.ts Works
+## 4. Ways to Consume storageState in Tests
+
+Once `globalSetup.ts` creates `.playwright/auth.json`, there are **two ways** to use it in your test files:
+
+### Option A: Direct `test.use()` (Simplest & Built-in Playwright Approach) ⭐
+
+You do not need any custom fixture file. Import standard `test` from `@playwright/test` and call `test.use({ storageState: '...' })` directly in your test file:
 
 ```ts
+// tests/myAccountPage.testUse.spec.ts
+import { test, expect } from '@playwright/test';
+import { MyAccountPage } from '../pages/MyAccountPage';
+
+// Tell Playwright to inject the auth state into the built-in { page } fixture
+test.use({ storageState: '.playwright/auth.json' });
+
+test('My Account page title is correct', async ({ page }) => {
+    const myAccountPage = new MyAccountPage(page);
+    await page.goto('/opencart/index.php?route=account/account');
+
+    const title = await myAccountPage.getMyAccountPageTitle();
+    expect(title).toBe('My Account');
+});
+```
+
+**Why this is great:**
+- **Zero fixture boilerplate** — uses Playwright's native `{ page }`.
+- **Easy role switching** — you can use `test.use({ storageState: 'admin.json' })` or `test.use({ storageState: 'customer.json' })` inside different `test.describe` blocks.
+- **Can reset auth** — easily test unauthenticated state with `test.use({ storageState: { cookies: [], origins: [] } })`.
+
+---
+
+### Option B: Custom Fixture (`storageStateFixture.ts`)
+
+Encapsulates both context creation and initial navigation inside a reusable fixture `{ myAccountPage }`:
+
+```ts
+// fixtures/storageStateFixture.ts
 base.extend<{ myAccountPage: MyAccountPage }>({
     myAccountPage: async ({ browser }, use) => {
         const context = await browser.newContext({
@@ -152,11 +187,15 @@ playwright.config.ts
 │       │
 │       └─ runs ONCE → writes .playwright/auth.json
 │
-└─ tests/myAccountPage.storageState.spec.ts
+├─ Option A: tests/myAccountPage.testUse.spec.ts
+│       │
+│       └─ test.use({ storageState: '.playwright/auth.json' })
+│               │
+│               └─ built-in { page } is already logged in ✓
+│
+└─ Option B: tests/myAccountPage.storageState.spec.ts
         │
         └─ imports storageState/storageStateFixture.ts
                 │
-                └─ newContext({ storageState: '.playwright/auth.json' })
-                        │
-                        └─ page is already logged in ✓
+                └─ custom fixture creates newContext with storageState ✓
 ```
