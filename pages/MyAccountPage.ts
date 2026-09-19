@@ -11,4 +11,8 @@ export class MyAccountPage {
         const title = await this.page.title()
         return title
     }
+
+    async getMyAccountPageURL() {
+        return this.page.url();
+    }
 }

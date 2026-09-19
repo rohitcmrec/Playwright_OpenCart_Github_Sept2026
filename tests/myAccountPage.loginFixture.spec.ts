@@ -10,5 +10,9 @@ test.beforeEach('before each step', async ({ page }) => {
 test('login', async ({ myAccountPage }) => {
     const title = await myAccountPage.getMyAccountPageTitle()
     expect(title).toBe('My Account');
+})
 
+test('Mt Account URL using login fixture', async ({ myAccountPage }) => {
+    let URL = await myAccountPage.getMyAccountPageURL();
+    expect(URL).toContain('route=account/account')
 })
