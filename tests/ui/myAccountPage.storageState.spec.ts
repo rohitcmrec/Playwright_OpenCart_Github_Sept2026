@@ -15,7 +15,7 @@
  *     globalSetup: './globalSetup.ts'
  *     use: { storageState: '.playwright/auth.json' }
  */
-import { test, expect } from '../fixtures/storageStateFixture'
+import { test, expect } from '../../fixtures/storageStateFixture'
 
 test('My Account page title is correct when using storageState', async ({ myAccountPage }) => {
     const title = await myAccountPage.getMyAccountPageTitle()

@@ -1,4 +1,4 @@
-import { test, expect } from '../fixtures/loginFixture'
+import { test, expect } from '../../fixtures/loginFixture'
 
 
 test.beforeEach('before each step', async ({ page }) => {

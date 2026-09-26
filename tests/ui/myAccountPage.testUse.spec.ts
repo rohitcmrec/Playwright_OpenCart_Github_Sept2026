@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { MyAccountPage } from '../pages/MyAccountPage';
+import { MyAccountPage } from '../../pages/MyAccountPage';
 
 // Directly instruct Playwright to use the saved storageState session
 test.use({ storageState: '.playwright/auth.json' });
