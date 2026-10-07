@@ -157,6 +157,13 @@ export default defineConfig({
     globalSetup: './storageState/globalSetup.ts',   // ← triggers the one-time login
     ...
 });
+
+// playwright.config.ts
+use: {
+    storageState: '.playwright/auth.json',   // ✅ already set here
+    baseURL: 'https://naveenautomationlabs.com/',
+    ...
+}
 ```
 
 Without this line, `globalSetup.ts` never runs, `auth.json` is never created,
