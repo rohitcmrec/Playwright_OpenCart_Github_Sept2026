@@ -18,7 +18,8 @@ async function globalSetup(config: FullConfig) {
     const { baseURL } = config.projects[0].use;
 
     const browser = await chromium.launch();
-    const page = await browser.newPage();
+    const context = await browser.newContext();
+    const page = await context.newPage(); 
 
     // Step 1 — Navigate to the OpenCart home page
     await page.goto(`${baseURL}/opencart`);
